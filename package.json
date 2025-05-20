@@ -1,0 +1,17 @@
+{
+  "name": "webscraping",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "natural": "^8.0.1",
+    "puppeteer": "^24.8.2"
+  }
+}
