@@ -1,36 +1,55 @@
+import natural from "natural";
 import callingScaper from "../scraping/callingNewsPortals.js";
+import fs from "fs";
 
 const userInput = "Trump says he resorted the India Pakistan war";
+const stopwords = [
+  "a", "an", "the", "is", "to", "about", "and", "or", "in", "on", "for", "of", "with", "at", "by", "from", "up", "down", "out", "over", "under"
+];
+const stemmer = natural.PorterStemmer;
+let headlines = [];
 
 function cleaningingInput(input) {
-    //Removing articles and ? ! etc 
-    let cleanInput = input.replace(/\b(to|is|a|an|the|about)\b/gi, "")
-    .replace(/[?.,!]/g, "").replace(/\s+/g, " ").trim();
-    //Converting the whole text to lower case so that it is easy to compare
-    let lowercase = cleanInput.toLowerCase().split(" ");
-    //Removing repeated words
-    let uniqueWords = [...new Set(lowercase)];
-    //collecting the clean text
-    cleanInput = uniqueWords.join(" ")
-    return cleanInput;
-}
+  // Convert input to lowercase and remove punctuation
+  let cleanInput = input
+      .toLowerCase() // Convert to lowercase
+      .replace(/[?.,!]/g, "") // Remove punctuation
+      .split(/\s+/); // Split into words
 
-function comparingWithScapredData(text) {
-    console.log(text.includes(cleanText));
-    if(text.includes(cleanText)) {
-        return text;
-    } else {
-        return 'There is no information on the provided data';
-    }
+  // Remove stopwords and apply stemming
+  cleanInput = cleanInput
+      .filter(word => !stopwords.includes(word)) // Remove stopwords
+      .map(word => stemmer.stem(word)); // Apply stemming
+
+  // Remove duplicate words
+  let uniqueWords = [...new Set(cleanInput)];
+
+  // Join the cleaned words back into a single string
+  return uniqueWords.join(" ");
 }
 
 const cleanText = cleaningingInput(userInput);
 callingScaper().then(data => {
     const hindu = data[0].data;
     const factChecking = data[1].data;
-    factChecking.forEach(h => {
-        console.log(comparingWithScapredData(h.title));
+
+    hindu.forEach(h => {
+      let cleanHeadline = cleaningingInput(h.title)
+      headlines.push(cleanHeadline);
     })
+    factChecking.forEach(f => {
+      let cleanHeadline = cleaningingInput(f.title)
+      headlines.push(cleanHeadline);
+    })
+
+      // Save headlines to a JSON file
+      fs.writeFile("headlines.json", JSON.stringify(headlines, null, 2), (err) => {
+        if (err) {
+            console.error("Error saving headlines to file:", err);
+        } else {
+            console.log("Headlines saved to headlines.json");
+        }
+    });
 }).catch(error => {
     console.log(error);
 })
