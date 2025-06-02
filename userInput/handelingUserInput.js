@@ -2,14 +2,14 @@ import natural from "natural";
 import callingScaper from "../scraping/callingNewsPortals.js";
 import fs from "fs";
 
-const userInput = "Trump says he resorted the India Pakistan war";
+// const userInput = "Trump says he resorted the India Pakistan war";
 const stopwords = [
   "a", "an", "the", "is", "to", "about", "and", "or", "in", "on", "for", "of", "with", "at", "by", "from", "up", "down", "out", "over", "under"
 ];
 const stemmer = natural.PorterStemmer;
 let headlines = [];
 
-function cleaningingInput(input) {
+export function cleaningingInput(input) {
   // Convert input to lowercase and remove punctuation
   let cleanInput = input
       .toLowerCase() // Convert to lowercase
@@ -28,7 +28,6 @@ function cleaningingInput(input) {
   return uniqueWords.join(" ");
 }
 
-const cleanText = cleaningingInput(userInput);
 callingScaper().then(data => {
     const hindu = data[0].data;
     const factChecking = data[1].data;
@@ -53,3 +52,10 @@ callingScaper().then(data => {
 }).catch(error => {
     console.log(error);
 })
+
+// Load and preprocess headlines
+export function loadHeadlines() {
+  const rawData = fs.readFileSync("headlines.json", "utf-8");
+  const headlines = JSON.parse(rawData);
+  return headlines.map(cleaningingInput); // Clean the headlines
+}
