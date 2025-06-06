@@ -53,7 +53,7 @@ const scraper = async (url, element) => {
       return []; // Return an empty array if data extraction fails
     }
 
-    console.log("Extracted Articles:", articles); // Debugging log
+    // console.log("Extracted Articles:", articles); // Debugging log
     return articles;
 
   } catch (error) {
