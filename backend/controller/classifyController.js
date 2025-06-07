@@ -1,5 +1,7 @@
+import { loadUnNeutralizedHeadlines, scrapeAndSaveHeadlines } from '../../tensor-flow-model/userInput/handelingUserInput.js';
 import { classifyUserStatementService } from '../services/classifyService.js';
 
+scrapeAndSaveHeadlines()
 export const classify = async (req, res) => {
   const { userInput } = req.body;
   if (!userInput) {
@@ -12,3 +14,12 @@ export const classify = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const news = async (req, res) => {
+    return res.status(200).json({data: getNews()})
+}
+
+function getNews() {
+    let news = loadUnNeutralizedHeadlines();
+    return news;
+}

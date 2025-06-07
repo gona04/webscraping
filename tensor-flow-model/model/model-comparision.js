@@ -1,8 +1,7 @@
 import * as use from "@tensorflow-models/universal-sentence-encoder"; // Import Universal Sentence Encoder
 import '@tensorflow/tfjs-node'; 
-import { cleaningingInput, loadHeadlines } from "../userInput/handelingUserInput.js";
+import { cleaningingInput } from "../userInput/handelingUserInput.js";
 
-let hl = loadHeadlines();
 export async function classifyUserStatement(userInput, headlines) {
    if(userInput && headlines.length > 0) {
      // Load the Universal Sentence Encoder model
@@ -10,12 +9,6 @@ export async function classifyUserStatement(userInput, headlines) {
 
     // Preprocess the user input
     const cleanedInput = cleaningingInput(userInput);
-
-    // Show which articles are being compared
-    console.log("Comparing user input to the following headlines:");
-    headlines.forEach((headline, idx) => {
-        console.log(`${idx + 1}. ${headline}`);
-    });
 
     // Generate embeddings for the user input and headlines
     const embeddingsTensor = await model.embed([cleanedInput, ...headlines]);
@@ -45,6 +38,7 @@ export async function classifyUserStatement(userInput, headlines) {
    }
 }
 
+/* const hl = loadHeadlines();
 // Test the function with a user input
 const userInput = "lee jae myung is not elect south korea’ new presid";
-classifyUserStatement(userInput, hl);
+classifyUserStatement(userInput, hl); */

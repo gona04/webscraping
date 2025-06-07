@@ -1,6 +1,11 @@
 import natural from "natural";
 import callingScaper from "../scraping/callingNewsPortals.js";
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // const userInput = "Trump says he resorted the India Pakistan war";
 const stopwords = [
@@ -28,34 +33,38 @@ export function cleaningingInput(input) {
   return uniqueWords.join(" ");
 }
 
-callingScaper().then(data => {
-    const hindu = data[0].data;
-    const factChecking = data[1].data;
+// Scrape and save both neutralized and unNeutralized headlines
+export async function scrapeAndSaveHeadlines() {
+  const data = await callingScaper();
+  const hindu = data[0].data;
+  const factChecking = data[1].data;
 
-    hindu.forEach(h => {
-      let cleanHeadline = cleaningingInput(h.title)
-      headlines.push(cleanHeadline);
-    })
-    factChecking.forEach(f => {
-      let cleanHeadline = cleaningingInput(f.title)
-      headlines.push(cleanHeadline);
-    })
+  const neutralized = [];
+  const unNeutralized = [];
 
-      // Save headlines to a JSON file
-      fs.writeFile("headlines.json", JSON.stringify(headlines, null, 2), (err) => {
-        if (err) {
-            console.error("Error saving headlines to file:", err);
-        } else {
-            console.log("Headlines saved to headlines.json");
-        }
-    });
-}).catch(error => {
-    console.log(error);
-})
+  hindu.forEach(h => {
+    neutralized.push(cleaningingInput(h.title));
+    unNeutralized.push(h.title);
+  });
+  factChecking.forEach(f => {
+    neutralized.push(cleaningingInput(f.title));
+    unNeutralized.push(f.title);
+  });
 
-// Load and preprocess headlines
-export function loadHeadlines() {
-  const rawData = fs.readFileSync("headlines.json", "utf-8");
-  const headlines = JSON.parse(rawData);
-  return headlines.map(cleaningingInput); // Clean the headlines
+  // Save both arrays
+  fs.writeFileSync(path.join(__dirname, "../scraped_data/headlines.json"), JSON.stringify(neutralized, null, 2));
+  fs.writeFileSync(path.join(__dirname, "../scraped_data/unNeutralizedHeadlines.json"), JSON.stringify(unNeutralized, null, 2));
 }
+
+// Load neutralized headlines
+export function loadHeadlines() {
+  const rawData = fs.readFileSync(path.join(__dirname, "../scraped_data/headlines.json"), "utf-8");
+  return JSON.parse(rawData);
+}
+
+// Load unNeutralized headlines
+export function loadUnNeutralizedHeadlines() {
+  const rawData = fs.readFileSync(path.join(__dirname, "../scraped_data/unNeutralizedHeadlines.json"), "utf-8");
+  return JSON.parse(rawData);
+}
+
