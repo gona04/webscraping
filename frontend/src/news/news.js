@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import './news.css';
+const API_URL = process.env.REACT_APP_API_URL;
+
 function News() {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/news")
+    console.log(`${API_URL}/api/news`);
+    fetch(`${API_URL}/api/news`)
       .then((data) => {
         return data.json();
       })

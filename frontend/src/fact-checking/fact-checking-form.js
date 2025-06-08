@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './fact-checking-form.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function FactCheckForm() {
   const [userInput, setUserInput] = useState('');
@@ -12,7 +13,7 @@ function FactCheckForm() {
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:3000/api/classify', {
+      const response = await fetch(`${API_URL}/api/classify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userInput }),
