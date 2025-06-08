@@ -32,3 +32,4 @@ React, Express, Node.js, Cheerio, Axios, TensorFlow.js, Universal Sentence Encod
 Note: This is my first project using TensorFlow.js and the Universal Sentence Encoder. The app is a work in progress and open to improvements!
 
 Feel free to fork, contribute, or reach out if you have feedback or opportunities!
+![Demo GIF](/assets/Fact-checking-app-ezgif.com-video-to-gif-converter.gif)
