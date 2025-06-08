@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node backend/fact-checking-api.js",
     "start:frontend": "cd frontend && webpack serve --config webpack.config.js",
-    "build:frontend": "webpack --config frontend/webpack.config.js",
-    "postinstall": "npx puppeteer browsers install chrome"
+    "build:frontend": "webpack --config frontend/webpack.config.js"
   },
   "keywords": [],
   "author": "",
