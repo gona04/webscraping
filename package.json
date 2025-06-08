@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/fact-checking-api.js",
     "start:frontend": "cd frontend && webpack serve --config webpack.config.js",
-    "build:frontend": "webpack --config frontend/webpack.config.js"
+   "build:frontend": "cd frontend && npx webpack --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
