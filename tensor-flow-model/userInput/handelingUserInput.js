@@ -33,6 +33,12 @@ export function cleaningingInput(input) {
   return uniqueWords.join(" ");
 }
 
+// Helper to remove timestamp and section prefix
+function removeTimestamp(title) {
+  // Matches patterns like "48 min ago - world " or "1 hour ago - industry "
+  return title.replace(/^\s*\d+\s+\w+\s+ago\s*-\s*\w+\s*/i, '').trim();
+}
+
 // Scrape and save both neutralized and unNeutralized headlines
 export async function scrapeAndSaveHeadlines() {
   const data = await callingScaper();
@@ -43,8 +49,9 @@ export async function scrapeAndSaveHeadlines() {
   const unNeutralized = [];
 
   hindu.forEach(h => {
-    neutralized.push(cleaningingInput(h.title));
-    unNeutralized.push(h.title);
+    const cleanedTitle = removeTimestamp(h.title);
+    neutralized.push(cleaningingInput(cleanedTitle));
+    unNeutralized.push(cleanedTitle);
   });
   factChecking.forEach(f => {
     neutralized.push(cleaningingInput(f.title));

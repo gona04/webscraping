@@ -1,0 +1,34 @@
+:root {
+   --blue: #3a70e5;
+   --white: #ffffff;
+   --dark-gray: #1e293b;
+   --green: #3bc96f;
+   --red: #e85f5f;
+   --yellow: #efa95e;
+   --light-gray: #f1f5f9;
+   --medium-gray: #64748b;
+}
+
+body {
+    background: var(--light-gray);
+    color: var(--dark-gray);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(60, 60, 60, 0.08);
+    padding: 32px 24px;
+}
+
+h1 {
+    color: var(--blue);
+    margin-bottom: 24px;
+    font-size: 2rem;
+    text-align: center;
+}
