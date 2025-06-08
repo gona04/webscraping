@@ -2,11 +2,12 @@ import * as use from "@tensorflow-models/universal-sentence-encoder"; // Import 
 import '@tensorflow/tfjs-node'; 
 import { cleaningingInput } from "../userInput/handelingUserInput.js";
 
-export async function classifyUserStatement(userInput, headlines) {
-   if(userInput && headlines.length > 0) {
-     // Load the Universal Sentence Encoder model
-    const model = await use.load();
 
+export async function classifyUserStatement(userInput, headlines) {
+  if(userInput && headlines.length > 0) {
+    // Load the Universal Sentence Encoder model
+    const model = await use.load();
+    
     // Preprocess the user input
     const cleanedInput = cleaningingInput(userInput);
 
@@ -26,19 +27,20 @@ export async function classifyUserStatement(userInput, headlines) {
     // Find the maximum similarity score
     const maxSimilarity = Math.max(...similarities);
 
-    // Define a threshold for classification
-    const threshold = 0.8;
-    const isTrue = maxSimilarity >= threshold;
+    // Define thresholds for classification
+    let classification;
+    if (maxSimilarity >= 0.8) {
+      classification = "True";
+    } else if (maxSimilarity >= 0.5) {
+      classification = "Partially True";
+    } else {
+      classification = "False";
+    }
 
     console.log(`\nUser Statement: "${userInput}"`);
     console.log(`Maximum Similarity: ${maxSimilarity}`);
-    console.log(`Classification: ${isTrue ? "True" : "False"}`);
+    console.log(`Classification: ${classification}`);
    } else {
     console.log(headlines);
    }
 }
-
-/* const hl = loadHeadlines();
-// Test the function with a user input
-const userInput = "lee jae myung is not elect south korea’ new presid";
-classifyUserStatement(userInput, hl); */

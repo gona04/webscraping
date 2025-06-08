@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "css-loader": "^7.1.2",
     "express": "^5.1.0",
+    "fuse.js": "^7.1.0",
     "natural": "^8.1.0",
     "puppeteer": "^24.8.2",
     "react": "^19.1.0",
