@@ -1,4 +1,4 @@
-import scraper from "./scraper.js";
+import alternativeScraper from "./alternative-scaper.js";
 
 const newsPortals = [
   {
@@ -18,7 +18,7 @@ const callingScaper = async () => {
     // Use Promise.all to wait for all scraper calls to resolve
     const data = await Promise.all(
       newsPortals.map(async (article) => {
-        const scrapedData = await scraper(article.url, article.element);
+        const scrapedData = await alternativeScraper(article.url, article.element);
         return { name: article.name, data: scrapedData };
       })
     );

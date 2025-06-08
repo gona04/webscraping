@@ -55,8 +55,13 @@ export function cleaningingInput(input) {
 
 // Helper to remove timestamp and section prefix
 function removeTimestamp(title) {
-  // Matches patterns like "48 min ago - world " or "1 hour ago - industry "
-  return title.replace(/^\s*\d+\s+\w+\s+ago\s*-\s*\w+\s*/i, "").trim();
+  // FOR PUPETEER Matches patterns like "48 min ago - world " or "1 hour ago - industry "
+  // return title.replace(/^\s*\d+\s+\w+\s+ago\s*-\s*\w+\s*/i, "").trim();
+  // Remove ISO 8601 timestamps with optional spaces around dashes, e.g. "2025 - 06 - 08T20:44:25+05:30 -"
+  return title
+    .replace(/\d{4}\s*-\s*\d{2}\s*-\s*\d{2}T\d{2}:\d{2}:\d{2}(?:\+\d{2}:\d{2}|Z)?\s*-\s*/g,"")
+    .replace(/^\s*\d+\s+\w+\s+ago\s*-\s*\w+\s*/i, "")
+    .trim();
 }
 
 // Scrape and save both neutralized and unNeutralized headlines
