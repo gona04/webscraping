@@ -21,7 +21,7 @@
     "express": "^5.1.0",
     "fuse.js": "^7.1.0",
     "natural": "^8.1.0",
-    "puppeteer": "^19.0.0",
+    "puppeteer": "^18.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "style-loader": "^4.0.0"
