@@ -1,4 +1,12 @@
 import puppeteer from "puppeteer";
+import fs from "fs";
+import path from "path";
+
+const chromePath =
+  process.env.CHROME_PATH ||
+  "/render/.cache/puppeteer/chrome/linux-137.0.7151.55/chrome-linux64/chrome";
+console.log("Looking for Chrome at:", chromePath);
+console.log("Exists?", fs.existsSync(chromePath));
 
 const scraper = async (url, element) => {
   if (!url || typeof url !== "string") {
@@ -10,9 +18,7 @@ const scraper = async (url, element) => {
     // Launch Puppeteer
     browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      executablePath:
-        process.env.CHROME_PATH ||
-        "/render/.cache/puppeteer/chrome/linux-137.0.7151.55/chrome-linux64/chrome",
+      executablePath: chromePath,
     });
     const page = await browser.newPage();
 
